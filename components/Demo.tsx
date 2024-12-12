@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import sdk, { type FrameContext } from '@farcaster/frame-sdk';
-import { useAccount, useConnect, useDisconnect } from 'wagmi';
+import { useAccount, useConnect, useDisconnect, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
 import { config } from '@/components/providers/WagmiProvider';
 
 export default function Demo() {
@@ -10,6 +10,19 @@ export default function Demo() {
   const [txHash, setTxHash] = useState<string | null>(null);
 
   const { address, isConnected } = useAccount();
+  const {
+    sendTransaction,
+    error: sendTxError,
+    isError: isSendTxError,
+    isPending: isSendTxPending,
+  } = useSendTransaction();
+
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash: txHash as `0x${string}`,
+    });
+
+
   const { disconnect } = useDisconnect();
   const { connect } = useConnect();
   
@@ -23,6 +36,26 @@ export default function Demo() {
       load();
     }
   }, [isSDKLoaded]);
+
+    const sendTx = useCallback(() => {
+    sendTransaction(
+      {
+        to: '0x4bBFD120d9f352A0BEd7a014bd67913a2007a878',
+        data: '0x9846cd9efc000023c0',
+      },
+      {
+        onSuccess: (hash) => {
+          setTxHash(hash);
+        },
+      }
+    );
+  }, [sendTransaction]);
+
+  const renderError = (error: Error | null) => {
+    if (!error) return null;
+    return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
+  };
+
 
   if (!isSDKLoaded) {
     return <div>Loading...</div>;
@@ -39,6 +72,7 @@ export default function Demo() {
   const close = () => {
     sdk.actions.close();
   };
+
 
   return (
     <div className="w-[300px] mx-auto py-4 px-2">
@@ -96,6 +130,33 @@ export default function Demo() {
             {isConnected ? 'Disconnect' : 'Connect'}
           </button>
         </div>  
+        {isConnected && (
+          <>
+            <div className="mb-4">
+              <button
+                onClick={sendTx}
+                disabled={!isConnected || isSendTxPending}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md"
+              >
+                Send Transaction
+              </button>
+              {isSendTxError && renderError(sendTxError)}
+              {txHash && (
+                <div className="mt-2 text-xs">
+                  <div>Hash: {txHash}</div>
+                  <div>
+                    Status:{' '}
+                    {isConfirming
+                      ? 'Confirming...'
+                      : isConfirmed
+                      ? 'Confirmed!'
+                      : 'Pending'}
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )} 
     </div>
   );
 }
