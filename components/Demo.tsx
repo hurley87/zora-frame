@@ -1,27 +1,21 @@
 import { useCallback, useEffect, useState } from 'react';
 import sdk, { type FrameContext } from '@farcaster/frame-sdk';
-import { useAccount, useConnect, useDisconnect, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi';
+import { useAccount, useConnect, useDisconnect, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { config } from '@/components/providers/WagmiProvider';
+import { enjoyHigherABI, enjoyHigherAddress } from '@/lib/enjoyHigher';
 
 export default function Demo() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [context, setContext] = useState<FrameContext>();
   const [isContextOpen, setIsContextOpen] = useState(false);
-  const [txHash, setTxHash] = useState<string | null>(null);
 
   const { address, isConnected } = useAccount();
-  const {
-    sendTransaction,
-    error: sendTxError,
-    isError: isSendTxError,
-    isPending: isSendTxPending,
-  } = useSendTransaction();
+  const { writeContract: mint, data: txHash, error: mintError, isPending: isMintPending } = useWriteContract();
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
-      hash: txHash as `0x${string}`,
+      hash: txHash,
     });
-
 
   const { disconnect } = useDisconnect();
   const { connect } = useConnect();
@@ -37,19 +31,16 @@ export default function Demo() {
     }
   }, [isSDKLoaded]);
 
-    const sendTx = useCallback(() => {
-    sendTransaction(
-      {
-        to: '0x4bBFD120d9f352A0BEd7a014bd67913a2007a878',
-        data: '0x9846cd9efc000023c0',
-      },
-      {
-        onSuccess: (hash) => {
-          setTxHash(hash);
-        },
-      }
-    );
-  }, [sendTransaction]);
+  const mintToken = useCallback(() => {
+    if (!mint) return;
+    mint({
+      address: enjoyHigherAddress,
+      abi: enjoyHigherABI,
+      functionName: 'mint',
+      args: [BigInt(2), BigInt(1)],
+      value: BigInt(111000000000000),
+    });
+  }, [mint]);
 
   const renderError = (error: Error | null) => {
     if (!error) return null;
@@ -134,13 +125,13 @@ export default function Demo() {
           <>
             <div className="mb-4">
               <button
-                onClick={sendTx}
-                disabled={!isConnected || isSendTxPending}
+                onClick={mintToken}
+                disabled={!isConnected || isMintPending}
                 className="bg-blue-500 text-white px-4 py-2 rounded-md"
               >
-                Send Transaction
+                Mint Token
               </button>
-              {isSendTxError && renderError(sendTxError)}
+              {mintError && renderError(mintError)}
               {txHash && (
                 <div className="mt-2 text-xs">
                   <div>Hash: {txHash}</div>
