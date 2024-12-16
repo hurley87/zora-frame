@@ -26,7 +26,6 @@ export default function Collect({
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [token, setToken] = useState<Token | null>(null);
   const [formattedTime, setFormattedTime] = useState<string>('');
-  const [currentTime, setCurrentTime] = useState<bigint | null>(null);
   const [startTime, setStartTime] = useState<bigint | null>(null);
 
   const { data } = useReadContract({
@@ -123,7 +122,7 @@ export default function Collect({
 
       return () => clearInterval(interval);
     }
-  }, [timeLeft, startTime]); // Remove currentTime from dependencies
+  }, [timeLeft, startTime]);
 
   if (!isSDKLoaded) {
     return <div>Loading...</div>;
