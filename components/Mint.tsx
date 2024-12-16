@@ -154,11 +154,11 @@ export default function Mint({
             </div>
             <div className="flex justify-between text-gray-500">
               <span className="font-medium">↳ Creator (50%)</span>
-              <span>✧ {mintAmount * COST_PER_TOKEN * 0.5}</span>
+              <span>✧ {(mintAmount * COST_PER_TOKEN * 0.5).toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-gray-500">
               <span className="font-medium">↳ $HIGHER Buy/Burn (45%)</span>
-              <span>✧ {mintAmount * COST_PER_TOKEN * 0.45}</span>
+              <span>✧ {(mintAmount * COST_PER_TOKEN * 0.45).toFixed(2)}</span>
             </div>
             <div className="flex justify-between text-gray-500">
               <span className="font-medium">↳ Enjoyr Protocol Fee (5%)</span>
