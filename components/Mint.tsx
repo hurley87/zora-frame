@@ -1,5 +1,5 @@
 'use client';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import {
   useAccount,
   useWriteContract,
@@ -21,6 +21,9 @@ export default function Mint({
   tokenContract: `0x${string}`;
   tokenId: string;
 }) {
+  const COST_PER_TOKEN = 111;
+  const [mintAmount, setMintAmount] = useState(1);
+  const [customMintAmount, setCustomMintAmount] = useState(false);
   const { isConnected } = useAccount();
   const {
     writeContract: mint,
@@ -40,7 +43,7 @@ export default function Mint({
       address: tokenContract,
       abi: enjoyHigherABI,
       functionName: 'mint',
-      args: [BigInt(tokenId), BigInt(1)],
+      args: [BigInt(tokenId), BigInt(mintAmount)],
       value: BigInt(111000000000000),
     });
   }, [mint, tokenContract, tokenId]);
@@ -78,48 +81,115 @@ export default function Mint({
           </DrawerClose>
         </div>
         <div className="flex flex-col gap-3 text-sm">
-          <p>
-            Enjoyr is a Farcaster bot that turns tokens on Base into cult
-            content networks!!!
-          </p>
-          <p>
-            ❗ Tag @enjoyr and include a $TICKER, image, and name for the image
-            (JPG, PNG, GIF).
-          </p>
-          <p>
-            ❗ Enjoyr creates a 6 hr open-edition 1155 in a contract dedicated
-            to the specified $TICKER and replies with a frame to mint. Users
-            must have a Neynar Score of .9 to interact with Enjoyr.
-          </p>
-          <p>
-            ❗ Sales from each mint are split accordingly: 45% Buy/Burn,
-            Specified $TICKER*, 50% Creator, 5% Enjoyr Protocol Fee.
-          </p>
-          <p>
-            Check out the announcement cast for an example and read the blog to
-            learn more including supported cult tokens.
-          </p>
-          <p>Made with 🔵❗❗❗ by Enjoy Tech.</p>
-        </div>
-        <DrawerFooter>
-          <Button onClick={mintToken} disabled={!isConnected || isMintPending}>
-            Mint
-          </Button>
-          {mintError && renderError(mintError)}
-          {txHash && (
-            <div className="mt-2 text-xs">
-              <div>Hash: {txHash}</div>
-              <div>
-                Status:{' '}
-                {isConfirming
-                  ? 'Confirming...'
-                  : isConfirmed
-                  ? 'Confirmed!'
-                  : 'Pending'}
+          <div className="flex gap-2">
+            <button
+              className={`w-full border border-black rounded-full h-8 ${
+                mintAmount === 1 ? 'bg-black text-white' : ''
+              }`}
+              onClick={() => {
+                setMintAmount(1);
+                setCustomMintAmount(false);
+              }}
+            >
+              1
+            </button>
+            <button
+              className={`w-full border border-black rounded-full h-8 ${
+                mintAmount === 10 ? 'bg-black text-white' : ''
+              }`}
+              onClick={() => {
+                setMintAmount(10);
+                setCustomMintAmount(false);
+              }}
+            >
+              10
+            </button>
+            <button
+              className={`w-full border border-black rounded-full h-8 ${
+                mintAmount === 100 ? 'bg-black text-white' : ''
+              }`}
+              onClick={() => {
+                setMintAmount(100);
+                setCustomMintAmount(false);
+              }}
+            >
+              100
+            </button>
+            <button
+              className={`w-full px-3 border border-black rounded-full h-8 ${
+                customMintAmount ? 'bg-black text-white' : ''
+              }`}
+              onClick={() => {
+                setMintAmount(1);
+                setCustomMintAmount(true);
+              }}
+            >
+              Custom
+            </button>
+          </div>
+          {customMintAmount && (
+            <div className="flex gap-2">
+              <button
+                className="w-full max-w-8 border border-black rounded-full h-8"
+                onClick={() => setMintAmount(mintAmount - 1)}
+              >
+                -
+              </button>
+              <div className="w-full border border-black rounded-full h-8 flex items-center justify-center">
+                {mintAmount}
               </div>
+              <button
+                className="w-full max-w-8 border border-black rounded-full h-8"
+                onClick={() => setMintAmount(mintAmount + 1)}
+              >
+                +
+              </button>
             </div>
           )}
-        </DrawerFooter>
+        </div>
+        <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-1 text-xs">
+            <div className="flex justify-between">
+              <span className="font-medium">Total Cost</span>
+              <span>✧ {mintAmount * COST_PER_TOKEN}</span>
+            </div>
+            <div className="flex justify-between text-gray-500">
+              <span className="font-medium">↳ Creator (50%)</span>
+              <span>✧ {mintAmount * COST_PER_TOKEN * 0.5}</span>
+            </div>
+            <div className="flex justify-between text-gray-500">
+              <span className="font-medium">↳ $HIGHER Buy/Burn (45%)</span>
+              <span>✧ {mintAmount * COST_PER_TOKEN * 0.45}</span>
+            </div>
+            <div className="flex justify-between text-gray-500">
+              <span className="font-medium">↳ Enjoyr Protocol Fee (5%)</span>
+              <span>✧ {(mintAmount * COST_PER_TOKEN * 0.05).toFixed(2)}</span>
+            </div>
+          </div>
+          <div className="w-full">
+            <Button
+              className="w-full"
+              onClick={mintToken}
+              disabled={!isConnected || isMintPending}
+            >
+              Mint
+            </Button>
+            {mintError && renderError(mintError)}
+            {txHash && (
+              <div className="mt-2 text-xs">
+                <div>Hash: {txHash}</div>
+                <div>
+                  Status:{' '}
+                  {isConfirming
+                    ? 'Confirming...'
+                    : isConfirmed
+                    ? 'Confirmed!'
+                    : 'Pending'}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </DrawerContent>
     </Drawer>
   );
