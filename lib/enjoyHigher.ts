@@ -420,7 +420,7 @@ export const enjoyHigherABI = [
   },
   {
     inputs: [],
-    name: 'MINT_FEE_SINGLE',
+    name: 'MINT_FEE',
     outputs: [
       {
         internalType: 'uint256',
@@ -433,7 +433,20 @@ export const enjoyHigherABI = [
   },
   {
     inputs: [],
-    name: 'ROUTER_ADDRESS',
+    name: 'MULTSIG',
+    outputs: [
+      {
+        internalType: 'address',
+        name: '',
+        type: 'address',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
+    inputs: [],
+    name: 'ROUTER',
     outputs: [
       {
         internalType: 'address',
@@ -671,25 +684,6 @@ export const enjoyHigherABI = [
         type: 'uint256',
       },
     ],
-    name: 'getRetainedFees',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
     name: 'getTokenCreator',
     outputs: [
       {
@@ -793,25 +787,6 @@ export const enjoyHigherABI = [
     name: 'renounceOwnership',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    name: 'retainedFeesPerToken',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -1019,6 +994,19 @@ export const enjoyHigherABI = [
       },
     ],
     name: 'transferOwnership',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'newFee',
+        type: 'uint256',
+      },
+    ],
+    name: 'updateMintFee',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',

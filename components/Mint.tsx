@@ -24,7 +24,7 @@ export default function Mint({
   tokenContract: `0x${string}`;
   tokenId: string;
 }) {
-  const COST_PER_TOKEN = 111;
+  const COST_PER_TOKEN = 300;
   const [mintAmount, setMintAmount] = useState(1);
   const [customMintAmount, setCustomMintAmount] = useState(false);
   const { isConnected } = useAccount();
@@ -47,7 +47,7 @@ export default function Mint({
       abi: enjoyHigherABI,
       functionName: 'mint',
       args: [BigInt(tokenId), BigInt(mintAmount)],
-      value: BigInt(111000000000000),
+      value: BigInt(300000000000000),
     });
   }, [mint, tokenContract, tokenId]);
 
@@ -162,15 +162,15 @@ export default function Mint({
             </div>
             <div className="flex justify-between text-gray-500">
               <span className="font-medium">↳ Creator (50%)</span>
-              <span>✧ {(mintAmount * COST_PER_TOKEN * 0.5).toFixed(2)}</span>
+              <span>✧ {(mintAmount * COST_PER_TOKEN * 0.5).toFixed(0)}</span>
             </div>
             <div className="flex justify-between text-gray-500">
               <span className="font-medium">↳ $HIGHER Buy/Burn (45%)</span>
-              <span>✧ {(mintAmount * COST_PER_TOKEN * 0.45).toFixed(2)}</span>
+              <span>✧ {(mintAmount * COST_PER_TOKEN * 0.45).toFixed(0)}</span>
             </div>
             <div className="flex justify-between text-gray-500">
               <span className="font-medium">↳ Enjoyr Protocol Fee (5%)</span>
-              <span>✧ {(mintAmount * COST_PER_TOKEN * 0.05).toFixed(2)}</span>
+              <span>✧ {(mintAmount * COST_PER_TOKEN * 0.05).toFixed(0)}</span>
             </div>
           </div>
           <div className="w-full">

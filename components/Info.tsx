@@ -3,8 +3,11 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
+  DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 
 export default function Info() {
   return (
@@ -26,6 +29,10 @@ export default function Info() {
         </svg>
       </DrawerTrigger>
       <DrawerContent className="p-4 flex flex-col gap-4">
+        <VisuallyHidden.Root>
+          <DrawerTitle>Info</DrawerTitle>
+          <DrawerDescription>Info</DrawerDescription>
+        </VisuallyHidden.Root>
         <div className="flex justify-between items-center">
           <div className="text-xl font-bold">Info</div>
           <DrawerClose>

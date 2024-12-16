@@ -6,10 +6,14 @@ import { enjoyHigherABI } from '@/lib/enjoyHigher';
 import Image from 'next/image';
 import Info from './Info';
 import Mint from './Mint';
+import { cultLogo } from '@/lib/utils';
 
 interface Token {
   image: string;
   name: string;
+  attributes: {
+    creator: string;
+  }[];
 }
 
 export default function Collect({
@@ -21,20 +25,73 @@ export default function Collect({
 }) {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [token, setToken] = useState<Token | null>(null);
+  const [formattedTime, setFormattedTime] = useState<string>('');
+  const [currentTime, setCurrentTime] = useState<bigint | null>(null);
+  const [startTime, setStartTime] = useState<bigint | null>(null);
 
-  const result = useReadContract({
+  const { data } = useReadContract({
     address: tokenContract,
     abi: enjoyHigherABI,
     functionName: 'tokenDetails',
     args: [BigInt(tokenId)],
   });
 
-  console.log('status', result.status);
-  console.log('result', result.data);
+  const { data: mintCount } = useReadContract({
+    address: tokenContract,
+    abi: enjoyHigherABI,
+    functionName: 'mintCount',
+    args: [BigInt(tokenId)],
+  });
+
+  const { data: burnedTokens } = useReadContract({
+    address: tokenContract,
+    abi: enjoyHigherABI,
+    functionName: 'getBurnedTokens',
+    args: [BigInt(tokenId)],
+  });
+
+  const { data: symbol } = useReadContract({
+    address: tokenContract,
+    abi: enjoyHigherABI,
+    functionName: 'symbol',
+    args: [],
+  });
+
+  const { data: timeLeft } = useReadContract({
+    address: tokenContract,
+    abi: enjoyHigherABI,
+    functionName: 'timeLeft',
+    args: [BigInt(tokenId)],
+  });
+
+  console.log('mintCount', mintCount);
+  console.log('burnedTokens', burnedTokens);
+  console.log('symbol', symbol);
+  console.log('timeLeft', timeLeft);
+
+  const formatTimeLeft = (timeLeft: bigint) => {
+    const seconds = Number(timeLeft) % 60;
+    const minutes = Math.floor(Number(timeLeft) / 60) % 60;
+    const hours = Math.floor(Number(timeLeft) / 3600) % 24;
+    return `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  };
+
+  const calculateTimeRemaining = (
+    startTime: bigint,
+    initialTimeLeft: bigint
+  ) => {
+    const now = BigInt(Math.floor(Date.now() / 1000));
+    const elapsedTime = now - startTime;
+    const remaining = initialTimeLeft - elapsedTime;
+    return remaining > BigInt(0) ? remaining : BigInt(0);
+  };
 
   useEffect(() => {
-    if (result.data) {
-      fetch(result.data[2])
+    if (data) {
+      setStartTime(data[1]);
+      fetch(data[2])
         .then((response) => response.json())
         .then((data) => {
           setToken(data);
@@ -43,7 +100,7 @@ export default function Collect({
           console.error('Error fetching token:', error);
         });
     }
-  }, [result.data]);
+  }, [data]);
 
   useEffect(() => {
     if (sdk && !isSDKLoaded) {
@@ -52,11 +109,29 @@ export default function Collect({
     }
   }, [isSDKLoaded]);
 
+  useEffect(() => {
+    if (startTime && timeLeft) {
+      // Calculate initial remaining time
+      const remaining = calculateTimeRemaining(startTime, timeLeft);
+      setFormattedTime(formatTimeLeft(remaining));
+
+      const interval = setInterval(() => {
+        const remaining = calculateTimeRemaining(startTime, timeLeft);
+
+        setFormattedTime(formatTimeLeft(remaining));
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [timeLeft, startTime]); // Remove currentTime from dependencies
+
   if (!isSDKLoaded) {
     return <div>Loading...</div>;
   }
 
   console.log('token', token);
+  const creatorAddress = token?.attributes[0].creator;
+  console.log('creatorAddress', creatorAddress);
 
   return (
     <div className="w-full h-screen flex flex-col justify-between p-3 gap-4">
@@ -72,7 +147,7 @@ export default function Collect({
           <img src={token.image} alt="Token" className="w-full h-auto" />
           <h1 className="text-2xl font-medium">{token.name}</h1>
           <div className="flex gap-3 items-center ">
-            <span>✧ 111</span>
+            <span>✧ 300</span>
             <span className="flex items-center gap-1">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +163,7 @@ export default function Collect({
                   d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
-              2 hrs
+              {formattedTime}
             </span>
             <span className="flex items-center gap-1">
               <svg
@@ -105,7 +180,7 @@ export default function Collect({
                   d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
-              2
+              {Number(mintCount)}
             </span>
             <span className="flex items-center gap-1">
               <svg
@@ -127,30 +202,30 @@ export default function Collect({
                   d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"
                 />
               </svg>
-              100 $HIGHER
+              {Number(burnedTokens)} ${symbol}
             </span>
           </div>
           <div className="flex gap-1 items-center">
-            <span className="pr-2">Cult</span>
-            <span className="pr-2"></span>
+            <span className="pr-1">Cult</span>
+
             <Image
-              src="/logos/higher.jpg"
-              alt="Higher"
+              src={`/logos/${cultLogo(tokenContract)}`}
+              alt="Cult"
               width={20}
               height={20}
             />
-            <span className="flex">$HIGHER</span>
+            <span className="flex">${symbol}</span>
           </div>
           <div className="flex gap-1 items-center">
-            <span className="pr-2">Creator</span>
-            <span className="pr-2"></span>
+            <span className="pr-1">Creator</span>
             <Image
-              src="/logos/higher.jpg"
+              src="/logos/pfp.png"
               alt="Higher"
               width={20}
               height={20}
+              className="rounded-full"
             />
-            <span className="flex">$HIGHER</span>
+            <span className="flex">@hurls</span>
           </div>
         </div>
       )}
