@@ -13,14 +13,33 @@ export function frameConnector() {
     type: frameConnector.type,
 
     async setup() {
-      this.connect({ chainId: config.chains[0].id });
+      await this.connect({ chainId: config.chains[0].id });
     },
+
+    async getProvider() {
+      if (!sdk.wallet?.ethProvider) {
+        throw new Error('Farcaster provider not available');
+      }
+      return sdk.wallet.ethProvider;
+    },
+
     async connect({ chainId } = {}) {
       try {
         const provider = await this.getProvider();
-        const accounts = await provider.request({
-          method: 'eth_requestAccounts',
-        });
+
+        if (!provider) {
+          throw new Error('Failed to initialize Farcaster provider');
+        }
+
+        let accounts;
+        try {
+          accounts = await provider.request({
+            method: 'eth_requestAccounts',
+          });
+        } catch (error) {
+          console.error('Failed to request accounts:', error);
+          throw new Error('Failed to connect to Farcaster wallet');
+        }
 
         let currentChainId = await this.getChainId();
         if (chainId && currentChainId !== chainId) {
@@ -39,6 +58,7 @@ export function frameConnector() {
         throw error;
       }
     },
+
     async disconnect() {
       connected = false;
     },
@@ -93,9 +113,6 @@ export function frameConnector() {
     async onDisconnect() {
       config.emitter.emit('disconnect');
       connected = false;
-    },
-    async getProvider() {
-      return sdk.wallet.ethProvider;
     },
   }));
 }
