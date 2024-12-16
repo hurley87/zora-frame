@@ -11,10 +11,7 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerDescription,
   DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
 export default function Mint({
@@ -46,7 +43,7 @@ export default function Mint({
       args: [BigInt(tokenId), BigInt(1)],
       value: BigInt(111000000000000),
     });
-  }, [mint]);
+  }, [mint, tokenContract, tokenId]);
 
   const renderError = (error: Error | null) => {
     if (!error) return null;
