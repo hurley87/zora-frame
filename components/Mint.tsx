@@ -11,7 +11,6 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
-  DrawerFooter,
   DrawerTrigger,
 } from '@/components/ui/drawer';
 export default function Mint({
