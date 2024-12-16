@@ -55,7 +55,7 @@ export default function Mint({
   return (
     <Drawer>
       <DrawerTrigger>
-        <Button>Mint</Button>
+        <Button className="w-full">Mint</Button>
       </DrawerTrigger>
       <DrawerContent className="p-4 flex flex-col gap-4">
         <div className="flex justify-between items-center">
