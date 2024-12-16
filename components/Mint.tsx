@@ -12,7 +12,11 @@ import {
   DrawerClose,
   DrawerContent,
   DrawerTrigger,
+  DrawerTitle,
+  DrawerDescription,
 } from '@/components/ui/drawer';
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+
 export default function Mint({
   tokenContract,
   tokenId,
@@ -58,6 +62,10 @@ export default function Mint({
         <Button className="w-full">Mint</Button>
       </DrawerTrigger>
       <DrawerContent className="p-4 flex flex-col gap-4">
+        <VisuallyHidden.Root>
+          <DrawerTitle>Mint</DrawerTitle>
+          <DrawerDescription>Mint a token</DrawerDescription>
+        </VisuallyHidden.Root>
         <div className="flex justify-between items-center">
           <div className="text-xl font-bold">Mint</div>
           <DrawerClose>
