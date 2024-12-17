@@ -123,9 +123,8 @@ export default function Collect({
     return <div>Loading...</div>;
   }
 
-  console.log('token', token);
-  const creatorAddress = token?.attributes[0].creator;
-  console.log('creatorAddress', creatorAddress);
+  const username = token?.attributes[0].creator;
+  console.log('username', username);
 
   return (
     <div className="w-full h-screen flex flex-col justify-between p-3 gap-4">
@@ -140,9 +139,9 @@ export default function Collect({
         <div className="flex flex-col gap-2 h-full">
           <img src={token.image} alt="Token" className="w-full h-auto" />
           <h1 className="text-2xl font-medium">{token.name}</h1>
-          <div className="flex gap-3 items-center ">
+          <div className="flex gap-2 items-center text-sm">
             <span>✧ 300</span>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-0.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -159,7 +158,7 @@ export default function Collect({
               </svg>
               {formattedTime}
             </span>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-0.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -176,7 +175,7 @@ export default function Collect({
               </svg>
               {Number(mintCount)}
             </span>
-            <span className="flex items-center gap-1">
+            <span className="flex items-center gap-0.5 text-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -196,12 +195,11 @@ export default function Collect({
                   d="M12 18a3.75 3.75 0 0 0 .495-7.468 5.99 5.99 0 0 0-1.925 3.547 5.975 5.975 0 0 1-2.133-1.001A3.75 3.75 0 0 0 12 18Z"
                 />
               </svg>
-              {Number(burnedTokens)} ${symbol}
+              {(Number(burnedTokens) / 10 ** 18).toFixed(0)} ${symbol}
             </span>
           </div>
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-1 items-center text-sm">
             <span className="pr-1">Cult</span>
-
             <Image
               src={`/logos/${cultLogo(tokenContract)}`}
               alt="Cult"
@@ -210,7 +208,7 @@ export default function Collect({
             />
             <span className="flex">${symbol}</span>
           </div>
-          <div className="flex gap-1 items-center">
+          <div className="flex gap-1 items-center text-sm">
             <span className="pr-1">Creator</span>
             <Image
               src="/logos/pfp.png"
