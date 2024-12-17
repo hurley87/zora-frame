@@ -7,10 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 
 export function cultLogo(address: string) {
   const logos: Record<string, string> = {
-    '0x27a040f96bEB380029Ffa15b3E0F0Feec2893Fb6': 'higher.jpg',
-    '0x762a39c8741918216e5c79B31Bb7D30d6d912e9b': 'gdupi.jpg',
-    '0x2EdE573A5F8269FCb8acf648AdfcFb1dE1Cfc879': 'anon.jpg',
-    '0xc7a86D22DFe2B63B5F6ef88087598D52D122d41A': 'comicsans.jpg',
+    '0x27a040f96beb380029ffa15b3e0f0feec2893fb6': 'higher.jpg',
+    '0x762a39c8741918216e5c79b31bb7d30d6d912e9b': 'gdupi.jpg',
+    '0x2ede573a5f8269fcb8acf648adfcfb1de1cfc879': 'anon.jpg',
+    '0xc7a86d22dfe2b63b5f6ef88087598d52d122d41a': 'comicsans.jpg',
   };
   return logos[address.toLowerCase()];
 }
