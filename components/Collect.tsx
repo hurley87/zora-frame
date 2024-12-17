@@ -124,7 +124,7 @@ export default function Collect({
   }
 
   const username = token?.attributes[0].creator;
-  console.log('username', username);
+  console.log('user', username);
 
   return (
     <div className="w-full h-screen flex flex-col justify-between p-3 gap-4">
