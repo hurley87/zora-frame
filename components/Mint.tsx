@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import {
   useAccount,
   useWriteContract,
@@ -29,7 +29,7 @@ export default function Mint({
   const [customMintAmount, setCustomMintAmount] = useState(false);
   const { isConnected } = useAccount();
   const {
-    writeContract: mint,
+    writeContractAsync: mint,
     data: txHash,
     error: mintError,
     isPending: isMintPending,
@@ -40,16 +40,16 @@ export default function Mint({
       hash: txHash,
     });
 
-  const mintToken = useCallback(() => {
+  const mintToken = async () => {
     if (!mint) return;
-    mint({
+    await mint({
       address: tokenContract,
       abi: enjoyHigherABI,
       functionName: 'mint',
       args: [BigInt(tokenId), BigInt(mintAmount)],
-      value: BigInt(mintAmount * COST_PER_TOKEN * 10 ** 18),
+      value: BigInt(COST_PER_TOKEN * mintAmount * 10 ** 12),
     });
-  }, [mint, tokenContract, tokenId]);
+  };
 
   const renderError = (error: Error | null) => {
     if (!error) return null;
@@ -177,7 +177,7 @@ export default function Mint({
             <Button
               className="w-full"
               onClick={mintToken}
-              disabled={!isConnected || isMintPending}
+              disabled={isMintPending || !isConnected}
             >
               {isMintPending ? 'Minting...' : 'Mint'}
             </Button>
