@@ -1,10 +1,6 @@
 'use client';
 import { useState } from 'react';
-import {
-  useAccount,
-  useWriteContract,
-  useWaitForTransactionReceipt,
-} from 'wagmi';
+import { useAccount, useWriteContract } from 'wagmi';
 import { enjoyHigherABI } from '@/lib/enjoyHigher';
 import { Button } from './ui/button';
 import {
@@ -16,6 +12,7 @@ import {
   DrawerDescription,
 } from '@/components/ui/drawer';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import { toast } from 'sonner';
 
 export default function Mint({
   tokenContract,
@@ -30,15 +27,9 @@ export default function Mint({
   const { isConnected } = useAccount();
   const {
     writeContractAsync: mint,
-    data: txHash,
     error: mintError,
     isPending: isMintPending,
   } = useWriteContract();
-
-  const { isLoading: isConfirming, isSuccess: isConfirmed } =
-    useWaitForTransactionReceipt({
-      hash: txHash,
-    });
 
   const mintToken = async () => {
     if (!mint) return;
@@ -49,6 +40,7 @@ export default function Mint({
       args: [BigInt(tokenId), BigInt(mintAmount)],
       value: BigInt(COST_PER_TOKEN * mintAmount * 10 ** 12),
     });
+    toast.success('Minted!');
   };
 
   const renderError = (error: Error | null) => {
@@ -182,18 +174,6 @@ export default function Mint({
               {isMintPending ? 'Minting...' : 'Mint'}
             </Button>
             {mintError && renderError(mintError)}
-            {txHash && (
-              <div className="mt-2 text-xs">
-                <div>
-                  Status:{' '}
-                  {isConfirming
-                    ? 'Confirming...'
-                    : isConfirmed
-                    ? 'Confirmed!'
-                    : 'Pending'}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </DrawerContent>
