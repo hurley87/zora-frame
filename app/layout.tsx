@@ -5,8 +5,8 @@ import { Providers } from '@/app/providers';
 import { Toaster } from '@/components/ui/sonner';
 
 export const metadata: Metadata = {
-  title: 'Farcaster Frames v2 Demo',
-  description: 'A Farcaster Frames v2 demo app',
+  title: 'Enjoyr',
+  description: 'A Enjoyr app',
 };
 
 export default function RootLayout({

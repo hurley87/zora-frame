@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Info from './Info';
 import Mint from './Mint';
 import { cultLogo } from '@/lib/utils';
+import Creator from './Creator';
 
 interface Token {
   image: string;
@@ -124,7 +125,6 @@ export default function Collect({
   }
 
   const username = token?.attributes[0].creator;
-  console.log('user', username);
 
   return (
     <div className="w-full h-screen flex flex-col justify-between p-3 gap-4">
@@ -208,17 +208,7 @@ export default function Collect({
             />
             <span className="flex">${symbol}</span>
           </div>
-          <div className="flex gap-1 items-center text-sm">
-            <span className="pr-1">Creator</span>
-            <Image
-              src="/logos/pfp.png"
-              alt="Higher"
-              width={20}
-              height={20}
-              className="rounded-full"
-            />
-            <span className="flex">@hurls</span>
-          </div>
+          {username && <Creator username={username} />}
         </div>
       )}
       <Mint tokenContract={tokenContract} tokenId={tokenId} />

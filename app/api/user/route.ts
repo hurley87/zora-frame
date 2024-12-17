@@ -8,7 +8,14 @@ const client = new NeynarAPIClient({
 async function getResponse(req: Request): Promise<Response> {
   const { username } = await req.json();
 
-  const user = await client.lookupUserByUsername(username);
+  if (!username) {
+    return NextResponse.json({ error: 'Username is required' });
+  }
+
+  const { user } = await client.lookupUserByUsername({
+    username,
+  });
+
   return NextResponse.json(user);
 }
 

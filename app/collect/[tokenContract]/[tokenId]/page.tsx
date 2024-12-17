@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: 'Mint',
       action: {
         type: 'launch_frame',
-        name: 'Farcaster Frames v2 Demo',
+        name: 'Enjoyr',
         url: `${appUrl}/collect/${tokenContract}/${tokenId}/`,
         splashImageUrl: `${appUrl}/logo.png`,
         splashBackgroundColor: '#f7f7f7',
