@@ -1,6 +1,10 @@
 import { Metadata } from 'next';
 import { use } from 'react';
 import App from '@/app/app';
+import { http } from 'viem';
+import { createPublicClient } from 'viem';
+import { base } from 'viem/chains';
+import { enjoyHigherABI } from '@/lib/enjoyHigher';
 
 interface CollectPageProps {
   params: Promise<{ tokenContract: `0x${string}`; tokenId: string }>;
@@ -15,14 +19,33 @@ interface Props {
   }>;
 }
 
+const publicClient = createPublicClient({
+  chain: base,
+  transport: http(process.env.NEXT_PUBLIC_RPC_URL),
+});
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { tokenContract, tokenId } = await params;
 
+  // get the token metadata
+  const result = (await publicClient.readContract({
+    abi: enjoyHigherABI,
+    address: tokenContract,
+    functionName: 'uri',
+    args: [BigInt(tokenId)],
+  })) as string;
+
+  const metadata = await fetch(result);
+  const metadataJson = await metadata.json();
+
+  console.log('metadataJson', metadataJson);
+  const imageUrl = metadataJson.image;
+
   const frame = {
     version: 'next',
-    imageUrl: `${appUrl}/collect/${tokenContract}/${tokenId}/opengraph-image`,
+    imageUrl,
     button: {
-      title: 'Launch Frame',
+      title: 'Mint',
       action: {
         type: 'launch_frame',
         name: 'Farcaster Frames v2 Demo',
