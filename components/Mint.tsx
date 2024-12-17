@@ -51,7 +51,7 @@ export default function Mint({
   return (
     <Drawer>
       <DrawerTrigger>
-        <Button className="w-full">Mint</Button>
+        <Button className="w-full py-2 h-12 text-lg">Mint</Button>
       </DrawerTrigger>
       <DrawerContent className="p-4 flex flex-col gap-4">
         <VisuallyHidden.Root>
@@ -59,7 +59,7 @@ export default function Mint({
           <DrawerDescription>Mint a token</DrawerDescription>
         </VisuallyHidden.Root>
         <div className="flex justify-between items-center">
-          <div className="text-xl font-bold">Mint</div>
+          <div className="text-xl">Mint</div>
           <DrawerClose>
             <div className="text-sm text-gray-500">
               <svg
@@ -167,7 +167,7 @@ export default function Mint({
           </div>
           <div className="w-full">
             <Button
-              className="w-full"
+              className="w-full text-lg py-2"
               onClick={mintToken}
               disabled={isMintPending || !isConnected}
             >

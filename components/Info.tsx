@@ -34,7 +34,7 @@ export default function Info() {
           <DrawerDescription>Info</DrawerDescription>
         </VisuallyHidden.Root>
         <div className="flex justify-between items-center">
-          <div className="text-xl font-bold">Info</div>
+          <div className="text-xl">Info</div>
           <DrawerClose>
             <div className="text-sm text-gray-500">
               <svg
