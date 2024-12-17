@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { use } from 'react';
-import Collect from '@/components/Collect';
+import App from '@/app/app';
 
 interface CollectPageProps {
   params: Promise<{ tokenContract: `0x${string}`; tokenId: string }>;
@@ -8,38 +8,48 @@ interface CollectPageProps {
 
 const appUrl = process.env.NEXT_PUBLIC_URL;
 
-const frame = {
-  version: 'next',
-  imageUrl: `${appUrl}/logo.png`,
-  button: {
-    title: 'Launch Frame',
-    action: {
-      type: 'launch_frame',
-      name: 'Enjoyr',
-      url: `${appUrl}/frames/hello/`,
-      splashImageUrl: `${appUrl}/logo.png`,
-      splashBackgroundColor: '#f7f7f7',
+interface Props {
+  params: Promise<{
+    tokenContract: `0x${string}`;
+    tokenId: string;
+  }>;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { tokenContract, tokenId } = await params;
+
+  const frame = {
+    version: 'next',
+    imageUrl: `${appUrl}/collect/${tokenContract}/${tokenId}/opengraph-image`,
+    button: {
+      title: 'Launch Frame',
+      action: {
+        type: 'launch_frame',
+        name: 'Farcaster Frames v2 Demo',
+        url: `${appUrl}/collect/${tokenContract}/${tokenId}/`,
+        splashImageUrl: `${appUrl}/logo.png`,
+        splashBackgroundColor: '#f7f7f7',
+      },
     },
-  },
-};
+  };
 
-export const metadata: Metadata = {
-  title: 'Hello, world!',
-  description: 'A simple hello world frame',
-  openGraph: {
-    title: 'Hello, world!',
-    description: 'A simple hello world frame',
-  },
-  other: {
-    'fc:frame': JSON.stringify(frame),
-  },
-};
-
-export default function CollectPage({ params }: CollectPageProps) {
+  return {
+    title: `Collect ${tokenId}`,
+    description: `A personalized hello frame for ${tokenId}`,
+    openGraph: {
+      title: `Collect ${tokenId}`,
+      description: `A personalized hello frame for ${tokenId}`,
+    },
+    other: {
+      'fc:frame': JSON.stringify(frame),
+    },
+  };
+}
+export default function CollectFrame({ params }: CollectPageProps) {
   const { tokenContract, tokenId } = use(params) as {
     tokenContract: `0x${string}`;
     tokenId: string;
   };
 
-  return <Collect tokenContract={tokenContract} tokenId={tokenId} />;
+  return <App tokenContract={tokenContract} tokenId={tokenId} />;
 }
