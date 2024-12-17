@@ -47,7 +47,7 @@ export default function Mint({
       abi: enjoyHigherABI,
       functionName: 'mint',
       args: [BigInt(tokenId), BigInt(mintAmount)],
-      value: BigInt(300000000000000),
+      value: BigInt(mintAmount * COST_PER_TOKEN * 10 ** 18),
     });
   }, [mint, tokenContract, tokenId]);
 
@@ -179,12 +179,11 @@ export default function Mint({
               onClick={mintToken}
               disabled={!isConnected || isMintPending}
             >
-              Mint
+              {isMintPending ? 'Minting...' : 'Mint'}
             </Button>
             {mintError && renderError(mintError)}
             {txHash && (
               <div className="mt-2 text-xs">
-                <div>Hash: {txHash}</div>
                 <div>
                   Status:{' '}
                   {isConfirming

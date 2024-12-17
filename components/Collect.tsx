@@ -63,11 +63,6 @@ export default function Collect({
     args: [BigInt(tokenId)],
   });
 
-  console.log('mintCount', mintCount);
-  console.log('burnedTokens', burnedTokens);
-  console.log('symbol', symbol);
-  console.log('timeLeft', timeLeft);
-
   const formatTimeLeft = (timeLeft: bigint) => {
     const seconds = Number(timeLeft) % 60;
     const minutes = Math.floor(Number(timeLeft) / 60) % 60;

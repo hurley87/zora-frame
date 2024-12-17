@@ -37,8 +37,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const metadata = await fetch(result);
   const metadataJson = await metadata.json();
-
-  console.log('metadataJson', metadataJson);
   const imageUrl = metadataJson.image;
 
   const frame = {
