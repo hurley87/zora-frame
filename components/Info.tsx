@@ -64,7 +64,10 @@ export default function Info() {
             ❗ Tag @enjoyr and include a $TICKER, image (JPG, PNG, GIF only),
             and a name for the image
           </p>
-          <p>❗ Users must have a Neynar Score of .9 to interact with Enjoyr</p>
+          <p>
+            ❗ Users must have a Neynar Score of .7 or higher to interact with
+            Enjoyr
+          </p>
           <div className="flex flex-col gap-0.5">
             <p>❗ Sales from each mint are split:</p>
             <ul className="flex flex-col gap-0.5 list-disc list-inside pl-6">
