@@ -45,7 +45,7 @@ export default function Mint({
 
   const renderError = (error: Error | null) => {
     if (!error) return null;
-    return <div className="text-red-500 text-xs mt-1">{error.message}</div>;
+    return <div className="text-red-500 text-xs mt-1">Mint failed</div>;
   };
 
   return (
