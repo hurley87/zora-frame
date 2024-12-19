@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { useAccount, useWriteContract } from 'wagmi';
+import { useAccount, useConnect, useWriteContract } from 'wagmi';
 import { enjoyHigherABI } from '@/lib/enjoyHigher';
 import { Button } from './ui/button';
 import {
@@ -14,6 +14,7 @@ import {
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { toast } from 'sonner';
 import { ticker } from '@/lib/utils';
+import { config } from './providers/WagmiProvider';
 
 export default function Mint({
   tokenContract,
@@ -26,6 +27,7 @@ export default function Mint({
   const [mintAmount, setMintAmount] = useState(1);
   const [customMintAmount, setCustomMintAmount] = useState(false);
   const { isConnected } = useAccount();
+  const { connect } = useConnect();
   const {
     writeContractAsync: mint,
     error: mintError,
@@ -169,17 +171,22 @@ export default function Mint({
             </div>
           </div>
           <div className="w-full">
-            <Button
-              className="w-full text-lg py-2"
-              onClick={mintToken}
-              disabled={isMintPending || !isConnected}
-            >
-              {!isConnected
-                ? 'Connecting...'
-                : isMintPending
-                ? 'Minting...'
-                : 'Mint'}
-            </Button>
+            {isConnected ? (
+              <Button
+                className="w-full text-lg py-2"
+                onClick={mintToken}
+                disabled={isMintPending || !isConnected}
+              >
+                {isMintPending ? 'Minting...' : 'Mint'}
+              </Button>
+            ) : (
+              <Button
+                className="w-full text-lg py-2"
+                onClick={() => connect({ connector: config.connectors[0] })}
+              >
+                Connect Wallet
+              </Button>
+            )}
             {mintError && renderError(mintError)}
           </div>
         </div>
