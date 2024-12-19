@@ -149,7 +149,7 @@ export default function Collect({
       </div>
       {token && (
         <div className="flex flex-col gap-2 h-full">
-          <img src={token.image} alt="Token" className="w-full h-auto" />
+          <img src={token.image} alt="Token" className="w-auto h-80 mx-auto" />
           <h1 className="text-2xl font-medium">{token.name}</h1>
           <div className="flex gap-2 items-center text-sm">
             <span className="flex items-center gap-0.5">
