@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/drawer';
 import sdk from '@farcaster/frame-sdk';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
-import Link from 'next/link';
 
 export default function Info() {
   return (
@@ -97,7 +96,15 @@ export default function Info() {
             </span>{' '}
             to learn more including supported cult tokens.
           </p>
-          <p>Made with 🔵❗❗❗ by Enjoy Tech.</p>
+          <p>
+            Made with 🔵❗❗❗ by{' '}
+            <span
+              onClick={() => sdk.actions.openUrl(`https://x.com/enjoytech`)}
+              className="underline"
+            >
+              Enjoy Tech.
+            </span>
+          </p>
         </div>
       </DrawerContent>
     </Drawer>
