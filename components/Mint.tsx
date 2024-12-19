@@ -171,7 +171,11 @@ export default function Mint({
               onClick={mintToken}
               disabled={isMintPending || !isConnected}
             >
-              {isMintPending ? 'Minting...' : 'Mint'}
+              {!isConnected
+                ? 'Connecting...'
+                : isMintPending
+                ? 'Minting...'
+                : 'Mint'}
             </Button>
             {mintError && renderError(mintError)}
           </div>
