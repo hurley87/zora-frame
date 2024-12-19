@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/drawer';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { toast } from 'sonner';
+import { ticker } from '@/lib/utils';
 
 export default function Mint({
   tokenContract,
@@ -157,7 +158,9 @@ export default function Mint({
               <span>✧ {(mintAmount * COST_PER_TOKEN * 0.5).toFixed(0)}</span>
             </div>
             <div className="flex justify-between text-gray-500">
-              <span className="font-medium">↳ $HIGHER Buy/Burn (45%)</span>
+              <span className="font-medium">
+                ↳ {ticker(tokenContract)} Buy/Burn (45%)
+              </span>
               <span>✧ {(mintAmount * COST_PER_TOKEN * 0.45).toFixed(0)}</span>
             </div>
             <div className="flex justify-between text-gray-500">
