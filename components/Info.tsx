@@ -7,7 +7,9 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
+import sdk from '@farcaster/frame-sdk';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
+import Link from 'next/link';
 
 export default function Info() {
   return (
@@ -56,31 +58,46 @@ export default function Info() {
         </div>
         <div className="flex flex-col gap-3 text-sm">
           <p>
-            Enjoyr is a Farcaster bot that turns tokens on Base into cult
+            Enjoyr is a Farcaster bot that turns tokens communities into cult
             content networks!!!
           </p>
           <p>
-            ❗ Tag @enjoyr and include a $TICKER, image, and name for the image
-            (JPG, PNG, GIF).
+            ❗ Tag @enjoyr and include a $TICKER, image (JPG, PNG, GIF only),
+            and a name for the image
           </p>
+          <p>❗ Users must have a Neynar Score of .9 to interact with Enjoyr</p>
+          <div className="flex flex-col gap-0.5">
+            <p>❗ Sales from each mint are split:</p>
+            <ul className="flex flex-col gap-0.5 list-disc list-inside pl-6">
+              <li>
+                <span>45% Buy/Burn Specified $TICKER</span>
+              </li>
+              <li>
+                <span>50% Creator</span>
+              </li>
+              <li>
+                <span>5% Enjoyr Protocol Fee</span>
+              </li>
+            </ul>
+          </div>
           <p>
-            ❗ Enjoyr creates a 6 hr open-edition 1155 in a contract dedicated
-            to the specified $TICKER and replies with a frame to mint. Users
-            must have a Neynar Score of .9 to interact with Enjoyr.
-          </p>
-          <p>
-            ❗ Sales from each mint are split accordingly: 45% Buy/Burn,
-            Specified $TICKER*, 50% Creator, 5% Enjoyr Protocol Fee.
-          </p>
-          <p>
-            Check out the announcement cast for an example and read the blog to
-            learn more including supported cult tokens.
+            Check out the{' '}
+            <span
+              onClick={() => sdk.actions.openUrl(`#`)}
+              className="underline"
+            >
+              announcement cast
+            </span>{' '}
+            for an example and read the{' '}
+            <span
+              onClick={() => sdk.actions.openUrl(`#`)}
+              className="underline"
+            >
+              blog
+            </span>{' '}
+            to learn more including supported cult tokens.
           </p>
           <p>Made with 🔵❗❗❗ by Enjoy Tech.</p>
-          <p className="text-xs opacity-50">
-            *Until $ENJOY is on Base (eta Q1 2025), fees dedicated to $ENJOY
-            will be manually bridged from Zora to Base and used to buy/burn.
-          </p>
         </div>
       </DrawerContent>
     </Drawer>

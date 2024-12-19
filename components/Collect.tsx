@@ -152,7 +152,9 @@ export default function Collect({
           <img src={token.image} alt="Token" className="w-full h-auto" />
           <h1 className="text-2xl font-medium">{token.name}</h1>
           <div className="flex gap-2 items-center text-sm">
-            <span>✧ 300</span>
+            <span className="flex items-center gap-0.5">
+              <span className="text-2xl">✧</span> 300
+            </span>
             <span className="flex items-center gap-0.5">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
