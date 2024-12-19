@@ -65,7 +65,7 @@ export default function Info() {
             and a name for the image
           </p>
           <p>
-            ❗ Users must have a Neynar Score of .7 or higher to interact with
+            ❗ Users must have a Neynar Score of .2 or higher to interact with
             Enjoyr
           </p>
           <div className="flex flex-col gap-0.5">
