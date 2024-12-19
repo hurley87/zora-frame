@@ -50,7 +50,7 @@ export default function Mint({
 
   return (
     <Drawer>
-      <DrawerTrigger>
+      <DrawerTrigger className="w-full">
         <Button className="w-full">Mint</Button>
       </DrawerTrigger>
       <DrawerContent className="p-4 flex flex-col gap-4">
