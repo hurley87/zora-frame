@@ -8,8 +8,8 @@ import Info from './Info';
 import Mint from './Mint';
 import { cultLogo } from '@/lib/utils';
 import Creator from './Creator';
-import { Button } from './ui/button';
-import { toast } from 'sonner';
+// import { Button } from './ui/button';
+// import { toast } from 'sonner';
 
 interface Token {
   image: string;
@@ -131,12 +131,12 @@ export default function Collect({
     (attribute) => attribute.trait_type === 'creator'
   )?.value;
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(
-      `https://enjoyr.vercel.app/collect/${tokenContract}/${tokenId}`
-    );
-    toast.success('Copied to clipboard');
-  };
+  // const copyToClipboard = () => {
+  //   navigator.clipboard.writeText(
+  //     `https://enjoyr.vercel.app/collect/${tokenContract}/${tokenId}`
+  //   );
+  //   toast.success('Copied to clipboard');
+  // };
 
   return (
     <div className="w-full h-screen flex flex-col justify-between p-3 gap-4">
@@ -226,7 +226,7 @@ export default function Collect({
           {username && <Creator username={username} />}
         </div>
       )}
-      <div className="flex justify-between items-center gap-3">
+      {/* <div className="flex justify-between items-center gap-3">
         <Mint tokenContract={tokenContract} tokenId={tokenId} />
         <Button
           onClick={() =>
@@ -241,7 +241,8 @@ export default function Collect({
         <Button onClick={copyToClipboard} variant="outline">
           Share
         </Button>
-      </div>
+      </div> */}
+      <Mint tokenContract={tokenContract} tokenId={tokenId} />
     </div>
   );
 }
