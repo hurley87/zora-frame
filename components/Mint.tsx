@@ -51,7 +51,7 @@ export default function Mint({
   return (
     <Drawer>
       <DrawerTrigger>
-        <Button className="w-full py-2 h-12 text-lg">Mint</Button>
+        <Button className="w-full">Mint</Button>
       </DrawerTrigger>
       <DrawerContent className="p-4 flex flex-col gap-4">
         <VisuallyHidden.Root>

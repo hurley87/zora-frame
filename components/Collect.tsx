@@ -13,7 +13,8 @@ interface Token {
   image: string;
   name: string;
   attributes: {
-    creator: string;
+    trait_type: string;
+    value: string;
   }[];
 }
 
@@ -124,7 +125,9 @@ export default function Collect({
     return <div>Loading...</div>;
   }
 
-  const username = token?.attributes[0].creator;
+  const username = token?.attributes.find(
+    (attribute) => attribute.trait_type === 'creator'
+  )?.value;
 
   return (
     <div className="w-full h-screen flex flex-col justify-between p-3 gap-4">
@@ -205,6 +208,7 @@ export default function Collect({
               alt="Cult"
               width={20}
               height={20}
+              className="rounded-full"
             />
             <span className="flex">${symbol}</span>
           </div>
