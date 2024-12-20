@@ -85,14 +85,20 @@ export default function Info() {
           <p>
             Check out the{' '}
             <span
-              onClick={() => sdk.actions.openUrl(`#`)}
+              onClick={() =>
+                sdk.actions.openUrl(`https://warpcast.com/enjoyr/0xb48cdbac`)
+              }
               className="underline"
             >
               announcement cast
             </span>{' '}
             for an example and read the{' '}
             <span
-              onClick={() => sdk.actions.openUrl(`#`)}
+              onClick={() =>
+                sdk.actions.openUrl(
+                  `https://paragraph.xyz/@enjoyweekly/enjoy-enjoyr`
+                )
+              }
               className="underline"
             >
               blog
