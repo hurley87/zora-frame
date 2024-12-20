@@ -111,12 +111,15 @@ export default function Collect({
     if (startTime && timeLeft) {
       // Calculate initial remaining time
       const remaining = calculateTimeRemaining(startTime, timeLeft);
-      setFormattedTime(formatTimeLeft(remaining));
+      setFormattedTime(
+        remaining <= BigInt(0) ? '00:00:00' : formatTimeLeft(remaining)
+      );
 
       const interval = setInterval(() => {
         const remaining = calculateTimeRemaining(startTime, timeLeft);
-
-        setFormattedTime(formatTimeLeft(remaining));
+        setFormattedTime(
+          remaining <= BigInt(0) ? '00:00:00' : formatTimeLeft(remaining)
+        );
       }, 1000);
 
       return () => clearInterval(interval);
