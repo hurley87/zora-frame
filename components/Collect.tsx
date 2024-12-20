@@ -245,7 +245,13 @@ export default function Collect({
           Share
         </Button>
       </div> */}
-      <Mint tokenContract={tokenContract} tokenId={tokenId} />
+      {formattedTime !== '00:00:00' ? (
+        <Mint tokenContract={tokenContract} tokenId={tokenId} />
+      ) : (
+        <div className="flex justify-center items-center h-full">
+          <div className="text-lg font-medium">Mint is closed</div>
+        </div>
+      )}
     </div>
   );
 }
