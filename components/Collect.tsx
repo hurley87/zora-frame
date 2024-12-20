@@ -141,6 +141,8 @@ export default function Collect({
   //   toast.success('Copied to clipboard');
   // };
 
+  console.log(formattedTime);
+
   return (
     <div className="w-full h-screen flex flex-col justify-between p-3 gap-4">
       <div className="flex justify-between items-center ">
@@ -173,7 +175,7 @@ export default function Collect({
                   d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
                 />
               </svg>
-              {formattedTime}
+              {formattedTime === '' ? '00:00:00' : formattedTime}
             </span>
             <span className="flex items-center gap-0.5">
               <svg
@@ -245,10 +247,10 @@ export default function Collect({
           Share
         </Button>
       </div> */}
-      {formattedTime !== '00:00:00' ? (
+      {formattedTime !== '' ? (
         <Mint tokenContract={tokenContract} tokenId={tokenId} />
       ) : (
-        <div className="flex justify-center items-center h-full">
+        <div className="flex justify-center items-center">
           <div className="text-lg font-medium">Mint is closed</div>
         </div>
       )}
