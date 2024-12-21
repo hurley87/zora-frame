@@ -3,7 +3,7 @@ import { use } from 'react';
 import App from '@/app/app';
 import { http } from 'viem';
 import { createPublicClient } from 'viem';
-import { base } from 'viem/chains';
+import { zora } from 'viem/chains';
 import { enjoyHigherABI } from '@/lib/enjoyHigher';
 
 interface CollectPageProps {
@@ -20,7 +20,7 @@ interface Props {
 }
 
 const publicClient = createPublicClient({
-  chain: base,
+  chain: zora,
   transport: http(process.env.NEXT_PUBLIC_RPC_URL),
 });
 
