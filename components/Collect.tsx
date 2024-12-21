@@ -209,7 +209,7 @@ export default function Collect({
           <div className="flex gap-1 items-center text-sm">
             <span className="pr-1">Cult</span>
             <Image
-              src={`/logos/${cultLogo(tokenContract)}`}
+              src={`/logos/enjoy.jpg`}
               alt="Cult"
               width={20}
               height={20}
