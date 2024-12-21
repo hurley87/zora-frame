@@ -6,7 +6,6 @@ import { enjoyHigherABI } from '@/lib/enjoyHigher';
 import Image from 'next/image';
 import Info from './Info';
 import Mint from './Mint';
-import { cultLogo } from '@/lib/utils';
 import Creator from './Creator';
 
 interface Token {
@@ -107,7 +106,6 @@ export default function Collect({
 
   useEffect(() => {
     if (startTime && timeLeft) {
-      // Calculate initial remaining time
       const remaining = calculateTimeRemaining(startTime, timeLeft);
       setFormattedTime(
         remaining <= BigInt(0) ? '00:00:00' : formatTimeLeft(remaining)
