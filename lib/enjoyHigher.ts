@@ -1,4 +1,4 @@
-export const enjoyHigherAddress = '0xA2A55B31CFC92dd1F598D57a106f27F843eB1200';
+export const enjoyHigherAddress = '0xf1E9BC2971F75C784D2D8689f574fBc0Dc89676a';
 
 export const enjoyHigherABI = [
   {

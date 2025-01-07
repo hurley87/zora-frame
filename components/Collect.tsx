@@ -141,7 +141,12 @@ export default function Collect({
       </div>
       {token && (
         <div className="flex flex-col gap-2 h-full">
-          <img src={token.image} alt="Token" className="w-auto h-80 mx-auto" />
+          <div
+            className="w-full h-80 mx-auto bg-center bg-cover bg-no-repeat"
+            style={{ backgroundImage: `url(${token.image})` }}
+            role="img"
+            aria-label={token.name}
+          />
           <h1 className="text-2xl font-medium">{token.name}</h1>
           <div className="flex gap-2 items-center text-sm">
             <span className="flex items-center gap-0.5">
