@@ -9,14 +9,14 @@ export async function GET() {
     },
     frame: {
       version: '1',
-      name: 'Enjoyr Frame',
-      iconUrl: 'https://enjoyr.vercel.app/logo.png',
-      homeUrl: 'https://enjoyr.vercel.app',
-      imageUrl: 'https://enjoyr.vercel.app/logo.png',
+      name: 'Enjoyr (Zora Network)',
+      iconUrl: 'https://enjoyr2.vercel.app/logo.png',
+      homeUrl: 'https://enjoyr2.vercel.app',
+      imageUrl: 'https://enjoyr2.vercel.app/logo.png',
       buttonTitle: 'Launch Frame',
-      splashImageUrl: 'https://enjoyr.vercel.app/logo.png',
+      splashImageUrl: 'https://enjoyr2.vercel.app/logo.png',
       splashBackgroundColor: '#eeccff',
-      webhookUrl: 'https://enjoyr.vercel.app/api/webhook',
+      webhookUrl: 'https://enjoyr2.vercel.app/api/webhook',
     },
   };
 
