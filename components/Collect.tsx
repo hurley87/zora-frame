@@ -7,6 +7,7 @@ import Image from 'next/image';
 import Info from './Info';
 import Mint from './Mint';
 import Creator from './Creator';
+import { Button } from './ui/button';
 
 interface Token {
   image: string;
@@ -223,12 +224,12 @@ export default function Collect({
           {username && <Creator username={username} />}
         </div>
       )}
-      {formattedTime !== '' ? (
+      {formattedTime !== '00:00:00' ? (
         <Mint tokenContract={tokenContract} tokenId={tokenId} />
       ) : (
-        <div className="flex justify-center items-center">
-          <div className="text-lg font-medium">Mint is closed</div>
-        </div>
+        <Button disabled className="w-full text-xl py-2 h-14">
+          Mint is closed
+        </Button>
       )}
     </div>
   );
