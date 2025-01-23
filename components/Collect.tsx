@@ -224,7 +224,7 @@ export default function Collect({
           {username && <Creator username={username} />}
         </div>
       )}
-      {formattedTime !== '00:00:00' ? (
+      {formattedTime !== '00:00:00' && formattedTime !== '' ? (
         <Mint tokenContract={tokenContract} tokenId={tokenId} />
       ) : (
         <Button disabled className="w-full text-xl py-2 h-14">
